@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_swiper/flutter_swiper.dart';
+
+import 'package:peliculas_app/src/providers/peliculas_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
@@ -28,6 +29,10 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _swiperTajetas() {
+
+    final peliProvider = PeliculasProvider();
+    peliProvider.getEnCartelera();
+
     return Container(
       width: double.infinity,
       height: 300.0,
@@ -37,7 +42,7 @@ class HomePage extends StatelessWidget {
         itemWidth: 250.0,
         itemCount: 3,
         itemBuilder: (BuildContext context, int index){
-          return Image.network("https://image.freepik.com/vector-gratis/plantilla-poster-fiesta-bollywood_23-2148474542.jpg",
+          return Image.network("https://image.tmdb.org/t/p/w500/4N55tgxDW0RRATyrZHbx0q9HUKv.jpg",
           fit: BoxFit.fill);
         },
         //pagination: SwiperPagination(), //para mostrar los puntitos
