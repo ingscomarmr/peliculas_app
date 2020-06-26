@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-
 import 'package:peliculas_app/src/providers/peliculas_provider.dart';
 
+import 'package:peliculas_app/src/widgets/card_swiper_widget.dart';
+
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  final peliculasProvider = PeliculasProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,12 @@ class HomePage extends StatelessWidget {
 
   Widget _swiperTajetas() {
 
+    return CardSwiper(
+      peliculas: [1,2,3],
+    );
+    /*
     final peliProvider = PeliculasProvider();
     peliProvider.getEnCartelera();
-
     return Container(
       width: double.infinity,
       height: 300.0,
@@ -48,6 +51,6 @@ class HomePage extends StatelessWidget {
         //pagination: SwiperPagination(), //para mostrar los puntitos
         //control: SwiperControl(), //para mostrar los controles de los lados
       ),
-    );
+    );*/
   }
 }
