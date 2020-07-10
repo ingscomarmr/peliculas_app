@@ -30,27 +30,25 @@ class HomePage extends StatelessWidget {
 
   Widget _swiperTajetas() {
 
-    return CardSwiper(
-      peliculas: [1,2,3],
+    return FutureBuilder(      
+      future: peliculasProvider.getEnCartelera(),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot){
+         
+         if(snapshot.hasData){
+            return CardSwiper( peliculas: snapshot.data);
+         }else{
+           //se muestra mientras no se resuelve el future
+           return Container(
+             height: 400, 
+             child: Center(child: CircularProgressIndicator())
+            );
+         }
+         
+         
+      }
     );
-    /*
-    final peliProvider = PeliculasProvider();
-    peliProvider.getEnCartelera();
-    return Container(
-      width: double.infinity,
-      height: 300.0,
-      padding: EdgeInsets.only(top:10.0),
-      child: Swiper(
-        layout: SwiperLayout.STACK,
-        itemWidth: 250.0,
-        itemCount: 3,
-        itemBuilder: (BuildContext context, int index){
-          return Image.network("https://image.tmdb.org/t/p/w500/4N55tgxDW0RRATyrZHbx0q9HUKv.jpg",
-          fit: BoxFit.fill);
-        },
-        //pagination: SwiperPagination(), //para mostrar los puntitos
-        //control: SwiperControl(), //para mostrar los controles de los lados
-      ),
-    );*/
+
+   
+    
   }
 }
