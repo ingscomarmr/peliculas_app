@@ -8,6 +8,17 @@ class PeliculasProvider{
   String _url         = "api.themoviedb.org";
   String _language    = "es-MX";
 
+  //para procesar el mismo resultado de la url peliculas
+  Future<List<Pelicula>> _procesarRespuesta(Uri url) async{
+    final resp = await http.get(url);
+    final decodeData = json.decode(resp.body); //decodificamos la respuesta en string
+    
+    final peliculas = Peliculas.fromJsonList(decodeData['results']); //pasa el json a el model
+
+    //print(peliculas.items[0].title);
+
+    return peliculas.items; //retona las peliculas
+  }
 
   Future<List<Pelicula>> getEnCartelera() async{
 
@@ -21,14 +32,22 @@ class PeliculasProvider{
       }
     );
 
-    final resp = await http.get(url);
-    final decodeData = json.decode(resp.body); //decodificamos la respuesta en string
-    
-    final peliculas = Peliculas.fromJsonList(decodeData['results']); //pasa el json a el model
+    return await _procesarRespuesta(url);
+  }
 
-    //print(peliculas.items[0].title);
+  Future<List<Pelicula>> getPopulares() async{
 
-    return peliculas.items; //retona las peliculas
+    //formamos el url para hacer la peticion
+    final url = Uri.https(
+      _url, //url, ya te agrega https
+      '3/movie/popular', //la ruta del api rest
+      { //un map con el nombre de los parametros a enviar y sus valores
+        'api_key'   :_apiKey, 
+        'language'  : _language      
+      }
+    );
+
+    return await _procesarRespuesta(url);
   }
 
 }
