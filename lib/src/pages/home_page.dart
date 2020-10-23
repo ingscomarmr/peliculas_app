@@ -9,6 +9,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    peliculasProvider
+        .getPopulares(); //para que se mande a llamar el metodo por primera vez
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: false, //para que el texto se vaya a un lado
@@ -61,11 +64,15 @@ class HomePage extends StatelessWidget {
           SizedBox(
             height: 5.0,
           ),
-          FutureBuilder(
-            future: peliculasProvider.getPopulares(),
+          StreamBuilder(
+            stream: peliculasProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                return MoviHorizontal(peliculas: snapshot.data);
+                return MoviHorizontal(
+                  peliculas: snapshot.data,
+                  fucFinScroll: peliculasProvider
+                      .getPopulares, //mandamos a traer mas peliculas
+                );
               }
               return Center(child: CircularProgressIndicator());
             },
