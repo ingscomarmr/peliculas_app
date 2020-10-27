@@ -9,6 +9,7 @@ class PeliculasProvider {
   String _url = "api.themoviedb.org";
   String _language = "es-MX";
   int _popularesPage = 1;
+  bool _cargandoPopulares = false;
 
   List<Pelicula> _popularesList = new List();
   //meter Stream y patron block
@@ -53,9 +54,15 @@ class PeliculasProvider {
   }
 
   Future<List<Pelicula>> getPopulares() async {
+    if (_cargandoPopulares) {
+      return []; //si esta cargando que retorne vacio por mientras
+    }
+
+    _cargandoPopulares = true; //que indique que va empezar a cargar
+
     _popularesPage++;
     //formamos el url para hacer la peticion
-    print('# pagina:$_popularesPage');
+    print('Cargando # pagina:$_popularesPage');
     final url = Uri.https(
         _url, //url, ya te agrega https
         '3/movie/popular', //la ruta del api rest
@@ -72,6 +79,7 @@ class PeliculasProvider {
     _popularesList.addAll(resp);
     popularesSink(_popularesList); //se meten las peliculas al stream
 
+    _cargandoPopulares = false; //para que ya liber el cargando
     return resp;
   }
 }

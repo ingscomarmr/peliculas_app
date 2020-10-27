@@ -23,10 +23,42 @@ class MoviHorizontal extends StatelessWidget {
 
     return Container(
       height: _screenSize.width * 0.6,
-      child: PageView(
+      child: PageView.builder(
+        //ayuda a gastar menos memoria, porque si trae 1000 todo se renderiza
         pageSnapping: false,
         controller: _pageController,
-        children: _targetas(context),
+        //children: _targetas(context),
+        itemCount: peliculas.length,
+        itemBuilder: (context, i) => _createTarjeta(context, peliculas[i]),
+      ),
+    );
+  }
+
+  Widget _createTarjeta(BuildContext context, Pelicula pe) {
+    return Container(
+      margin: EdgeInsets.only(right: 15.0),
+      child: Column(
+        //para acomodarlas en forma lineal
+        children: <Widget>[
+          ClipRRect(
+            //para hacer redondas las img
+            borderRadius: BorderRadius.circular(20.0),
+            child: FadeInImage(
+              image: NetworkImage(pe.getUrlImg()),
+              placeholder: AssetImage('assets/img/loading.gif'),
+              fit: BoxFit.cover,
+              height: 160.0,
+            ),
+          ),
+          SizedBox(
+            height: 5.0,
+          ),
+          Text(
+            pe.title,
+            overflow: TextOverflow.ellipsis, //para que el texto no se desborde
+            style: Theme.of(context).textTheme.caption,
+          )
+        ],
       ),
     );
   }
