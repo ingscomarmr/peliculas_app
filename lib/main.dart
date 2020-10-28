@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:peliculas_app/src/pages/home_page.dart';
- 
+import 'package:peliculas_app/src/pages/pelicula_detalle.dart';
+
 void main() => runApp(MyApp());
- 
+
 class MyApp extends StatelessWidget {
   //String API_Key = "a28723083abe7cf0ebd9f69fa3740ce3";//(v3 auth)
   //String Example_API_Request = "https://api.themoviedb.org/3/movie/550?api_key=a28723083abe7cf0ebd9f69fa3740ce3";//(v3 auth)
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Peliculas',
       initialRoute: '/',
       routes: {
-        '/'     : (BuildContext context) => HomePage(),
+        '/': (BuildContext context) => HomePage(),
+        'detalles': (BuildContext context) => PeliculaDetalle(),
       },
     );
   }

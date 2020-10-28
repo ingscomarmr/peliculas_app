@@ -35,7 +35,7 @@ class MoviHorizontal extends StatelessWidget {
   }
 
   Widget _createTarjeta(BuildContext context, Pelicula pe) {
-    return Container(
+    final Widget tarjeta = Container(
       margin: EdgeInsets.only(right: 15.0),
       child: Column(
         //para acomodarlas en forma lineal
@@ -60,6 +60,16 @@ class MoviHorizontal extends StatelessWidget {
           )
         ],
       ),
+    );
+
+    return GestureDetector(
+      //para gestionar el on tab
+      child: tarjeta, //le pasamos la tarjeta
+      onTap: () {
+        print('Dio tab en pelicula ${pe.title}');
+        Navigator.pushNamed(context, 'detalles',
+            arguments: pe); //en arguments mandamos el objeto de pelicula
+      },
     );
   }
 
