@@ -9,7 +9,19 @@ class PeliculaDetalle extends StatelessWidget {
 
     return Scaffold(
       body: CustomScrollView(
-        slivers: <Widget>[_crearAppBar(pelicula)],
+        slivers: <Widget>[
+          _crearAppBar(pelicula),
+          SliverList(
+              delegate: SliverChildListDelegate([
+            SizedBox(height: 10.0),
+            _tituloPelicula(context, pelicula),
+            _descripcionPelicula(context, pelicula),
+            _descripcionPelicula(context, pelicula),
+            _descripcionPelicula(context, pelicula),
+            _descripcionPelicula(context, pelicula),
+            _descripcionPelicula(context, pelicula),
+          ]))
+        ],
       ),
     );
   }
@@ -33,6 +45,60 @@ class PeliculaDetalle extends StatelessWidget {
           /*fadeInDuration: Duration(microseconds: 150),*/
           fit: BoxFit.cover,
         ),
+      ),
+    );
+  }
+
+  Widget _tituloPelicula(BuildContext context, Pelicula pelicula) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image(
+              image: NetworkImage(pelicula.getUrlImg()),
+              height: 150.0,
+            ),
+          ),
+          SizedBox(width: 20.0),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  pelicula.title,
+                  style: Theme.of(context).textTheme.subtitle1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  pelicula.originalTitle,
+                  style: Theme.of(context).textTheme.subtitle2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.star_border),
+                    Text(
+                      pelicula.voteAverage.toString(),
+                      style: Theme.of(context).textTheme.subtitle2,
+                    )
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _descripcionPelicula(BuildContext context, Pelicula pelicula) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+      child: Text(
+        pelicula.overview,
+        textAlign: TextAlign.justify,
       ),
     );
   }
