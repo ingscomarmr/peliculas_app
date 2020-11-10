@@ -40,14 +40,17 @@ class MoviHorizontal extends StatelessWidget {
       child: Column(
         //para acomodarlas en forma lineal
         children: <Widget>[
-          ClipRRect(
-            //para hacer redondas las img
-            borderRadius: BorderRadius.circular(20.0),
-            child: FadeInImage(
-              image: NetworkImage(pe.getUrlImg()),
-              placeholder: AssetImage('assets/img/loading.gif'),
-              fit: BoxFit.cover,
-              height: 160.0,
+          Hero(
+            tag: pe.id,
+            child: ClipRRect(
+              //para hacer redondas las img
+              borderRadius: BorderRadius.circular(20.0),
+              child: FadeInImage(
+                image: NetworkImage(pe.getUrlImg()),
+                placeholder: AssetImage('assets/img/loading.gif'),
+                fit: BoxFit.cover,
+                height: 160.0,
+              ),
             ),
           ),
           SizedBox(
