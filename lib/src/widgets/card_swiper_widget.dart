@@ -22,16 +22,20 @@ class CardSwiper extends StatelessWidget {
         itemHeight: _screenSize.height * 0.5,
         itemCount: peliculas.length,
         itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: FadeInImage(
-              placeholder: AssetImage(
-                  'assets/img/loading.gif'), //poner una img mientras se carga
-              image: NetworkImage(
-                  peliculas[index].getUrlImg()), //para obtener la img
-              fit: BoxFit.cover, //para adaptar la imagen y se vea redonda
-            ),
-          );
+          peliculas[index].heroId = peliculas[index].id.toString() + '-card';
+
+          return Hero(
+              tag: peliculas[index].heroId,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: FadeInImage(
+                  placeholder: AssetImage(
+                      'assets/img/loading.gif'), //poner una img mientras se carga
+                  image: NetworkImage(
+                      peliculas[index].getUrlImg()), //para obtener la img
+                  fit: BoxFit.cover, //para adaptar la imagen y se vea redonda
+                ),
+              ));
         },
         onTap: (index) => _showPlayingVideo(context, index),
         //pagination: SwiperPagination(), //para mostrar los puntitos
@@ -41,13 +45,9 @@ class CardSwiper extends StatelessWidget {
   }
 
   void _showPlayingVideo(BuildContext context, int index) {
-    /* FUNCIONAL PERO NO TAN DINAMICO */
-    //crear la ruta de la pagina
-    final route = MaterialPageRoute(builder: (context) {
-      return PlayVideoPage();
-    });
-    //para mandar a otra pagina
-    Navigator.push(context, route);
+    final Pelicula pe = peliculas[index];
+    print('Dio tab en pelicula ${pe.title}');
+    Navigator.pushNamed(context, 'detalles', arguments: pe);
   }
 
   //para mostrar una alerta tipo toast

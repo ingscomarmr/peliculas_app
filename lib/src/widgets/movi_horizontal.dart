@@ -35,13 +35,15 @@ class MoviHorizontal extends StatelessWidget {
   }
 
   Widget _createTarjeta(BuildContext context, Pelicula pe) {
+    pe.heroId = pe.id.toString() + '-tarjeta';
+
     final Widget tarjeta = Container(
       margin: EdgeInsets.only(right: 15.0),
       child: Column(
         //para acomodarlas en forma lineal
         children: <Widget>[
           Hero(
-            tag: pe.id,
+            tag: pe.heroId,
             child: ClipRRect(
               //para hacer redondas las img
               borderRadius: BorderRadius.circular(20.0),

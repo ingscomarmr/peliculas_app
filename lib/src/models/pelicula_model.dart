@@ -16,6 +16,8 @@ class Peliculas {
 }
 
 class Pelicula {
+  String heroId;
+
   double popularity;
   int voteCount;
   bool video;
