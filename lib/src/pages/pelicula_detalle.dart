@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas_app/src/models/actor_model.dart';
 import 'package:peliculas_app/src/models/pelicula_model.dart';
+import 'package:peliculas_app/src/providers/peliculas_provider.dart';
 
 class PeliculaDetalle extends StatelessWidget {
   @override
@@ -20,6 +22,7 @@ class PeliculaDetalle extends StatelessWidget {
             _descripcionPelicula(context, pelicula),
             _descripcionPelicula(context, pelicula),
             _descripcionPelicula(context, pelicula),
+            _crearCast(pelicula)
           ]))
         ],
       ),
@@ -99,6 +102,62 @@ class PeliculaDetalle extends StatelessWidget {
       child: Text(
         pelicula.overview,
         textAlign: TextAlign.justify,
+      ),
+    );
+  }
+
+  Widget _crearCast(Pelicula pelicula) {
+    final peliculaProvider = PeliculasProvider();
+    return FutureBuilder(
+      future: peliculaProvider.getActores(pelicula.id.toString()),
+      builder: (context, AsyncSnapshot<List> snapshot) {
+        if (snapshot.hasData) {
+          print("Actores:" + snapshot.data.length.toString());
+          return _createPageActor(snapshot.data);
+        } else {
+          return Container(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+  Widget _createPageActor(List<Actor> actores) {
+    return SizedBox(
+      height: 200.0,
+      child: PageView.builder(
+        pageSnapping: false,
+        controller: PageController(
+          viewportFraction: 0.3,
+          initialPage: 1,
+        ),
+        itemCount: actores.length,
+        itemBuilder: (context, index) {
+          return _actorTarjeta(actores[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _actorTarjeta(Actor actor) {
+    return Container(
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: FadeInImage(
+              image: NetworkImage(actor.getProfileUrlImg()),
+              placeholder: AssetImage('assets/img/no-image.jpg'),
+              height: 150.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Text(
+            actor.name,
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
       ),
     );
   }

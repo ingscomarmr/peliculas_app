@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http; //le ponemos un alias al paquete
 
 import 'package:peliculas_app/src/models/pelicula_model.dart';
+import 'package:peliculas_app/src/models/actor_model.dart';
 
 class PeliculasProvider {
   String _apiKey = "a28723083abe7cf0ebd9f69fa3740ce3";
@@ -81,5 +82,30 @@ class PeliculasProvider {
 
     _cargandoPopulares = false; //para que ya liber el cargando
     return resp;
+  }
+
+  Future<List<Actor>> getActores(String peliculaId) async {
+    print("Obtener Creditos de Pelicula id:" + peliculaId);
+    final url = Uri.https(
+        _url, //url, ya te agrega https
+        '3/movie/$peliculaId/credits', //la ruta del api rest
+        {
+          //un map con el nombre de los parametros a enviar y sus valores
+          'api_key': _apiKey,
+          'language': _language
+        });
+
+    final resp = await http.get(url);
+
+    final decodeData =
+        json.decode(resp.body); //decodificamos la respuesta en string
+
+    print(decodeData.toString());
+    final cast =
+        Cast.fromJsonList(decodeData['cast']); //pasa el json a el model
+
+    //print(peliculas.items[0].title);
+
+    return cast.actores; //retona las peliculas
   }
 }
