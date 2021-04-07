@@ -108,4 +108,19 @@ class PeliculasProvider {
 
     return cast.actores; //retona las peliculas
   }
+
+  Future<List<Pelicula>> buscarPerlicula(String query) async {
+    //formamos el url para hacer la peticion
+    final url = Uri.https(
+        _url, //url, ya te agrega https
+        '3/search/movie', //la ruta del api rest
+        {
+          //un map con el nombre de los parametros a enviar y sus valores
+          'api_key': _apiKey,
+          'language': _language,
+          'query': query
+        });
+
+    return await _procesarRespuesta(url);
+  }
 }

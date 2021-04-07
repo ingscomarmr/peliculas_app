@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas_app/src/models/pelicula_model.dart';
+import 'package:peliculas_app/src/providers/peliculas_provider.dart';
 
 class DataSearch extends SearchDelegate {
   String seleccion = "";
+  final PeliculasProvider peliculasProvider = new PeliculasProvider();
 
   final peliculas = [
     'Spiderman',
@@ -59,6 +62,42 @@ class DataSearch extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     // SUGERENCIAS QUE SE MUESTRAN CUANDO ESCRIBE
 
+    if (query.isEmpty) {
+      return Container();
+    }
+
+    return FutureBuilder(
+      future: peliculasProvider.buscarPerlicula(query),
+      builder: (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
+        if (snapshot.hasData) {
+          final peliculas = snapshot.data;
+          try {
+            return ListView(
+              children: peliculas.map((p) {
+                print(p.getUrlImg());
+                return ListTile(
+                  leading: FadeInImage(
+                    image: NetworkImage(p.getUrlImgBackground()),
+                    placeholder: AssetImage('assets/img/no-image.jpg'),
+                    width: 50.0,
+                    fit: BoxFit.contain,
+                  ),
+                  title: Text(p.title),
+                  subtitle: Text(p.originalTitle),
+                );
+              }).toList(),
+            );
+          } catch (ex) {
+            print(ex);
+          }
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+
+    /* ejemplo
     final listaSugerida = (query.isEmpty)
         ? peliculasRecientes
         : peliculas
@@ -77,6 +116,6 @@ class DataSearch extends SearchDelegate {
           },
         );
       },
-    );
+    );*/
   }
 }

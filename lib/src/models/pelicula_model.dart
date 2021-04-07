@@ -75,9 +75,12 @@ class Pelicula {
   }
 
   getUrlImgBackground() {
-    if (posterPath == null) {
-      return 'https://image.flaticon.com/icons/svg/61/61342.svg';
+    print('img poster:$posterPath');
+    String img = 'https://image.flaticon.com/icons/svg/61/61342.svg';
+    if (backdropPath != null) {
+      img = 'https://image.tmdb.org/t/p/w500$backdropPath';
     }
-    return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    print('url:$img');
+    return img;
   }
 }
