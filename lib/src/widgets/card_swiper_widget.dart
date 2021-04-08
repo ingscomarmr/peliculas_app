@@ -18,7 +18,7 @@ class CardSwiper extends StatelessWidget {
         layout: SwiperLayout.STACK,
         itemWidth:
             _screenSize.width * 0.7, //para poder ajustar el swiper a lo ancho
-        itemHeight: _screenSize.height * 0.5,
+        itemHeight: _screenSize.height * 0.48,
         itemCount: peliculas.length,
         itemBuilder: (BuildContext context, int index) {
           peliculas[index].heroId = peliculas[index].id.toString() + '-card';
@@ -50,6 +50,7 @@ class CardSwiper extends StatelessWidget {
   }
 
   //para mostrar una alerta tipo toast
+  /*
   void _showToast(BuildContext context, int index) {
     final scaffold = Scaffold.of(context);
     final String msgText = 'Index pelicula $index';
@@ -60,5 +61,5 @@ class CardSwiper extends StatelessWidget {
             label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
-  }
+  }*/
 }

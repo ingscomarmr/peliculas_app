@@ -51,7 +51,7 @@ class MoviHorizontal extends StatelessWidget {
                 image: NetworkImage(pe.getUrlImg()),
                 placeholder: AssetImage('assets/img/loading.gif'),
                 fit: BoxFit.cover,
-                height: 160.0,
+                height: 140.0,
               ),
             ),
           ),
@@ -78,6 +78,7 @@ class MoviHorizontal extends StatelessWidget {
     );
   }
 
+/*
   List<Widget> _targetas(BuildContext context) {
     return peliculas.map((pe) {
       return Container(
@@ -109,4 +110,6 @@ class MoviHorizontal extends StatelessWidget {
       );
     }).toList();
   }
+  */
+
 }

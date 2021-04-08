@@ -12,7 +12,7 @@ class PeliculasProvider {
   int _popularesPage = 1;
   bool _cargandoPopulares = false;
 
-  List<Pelicula> _popularesList = new List();
+  List<Pelicula> _popularesList = [];
   //meter Stream y patron block
   final _popularesStreamController =
       StreamController<List<Pelicula>>.broadcast();
